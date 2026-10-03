@@ -89,6 +89,13 @@ const App = () => {
       <button onClick={handleComlete}>Completed</button>
 
       <p>Todos: {todos.filter((todo) => todo.completed === false).length}</p>
+      {filteredTodos.length === 0 ? (
+        <p>No todos found.</p>
+      ) : (
+        filteredTodos.map((todo) => {
+          todo.completed === false;
+        }).length
+      )}
       <p>
         <input
           type="text"

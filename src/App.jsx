@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./App.css";
+import TodoForm from "./Components/TodoForm";
+import TodoList from "./Components/TodoList";
 
 const App = () => {
   const [todos, setTodo] = useState([
@@ -50,16 +52,6 @@ const App = () => {
     }
   };
 
-  const filteredTodos = todos.filter((todo) => {
-    if (filter === "completed") {
-      return todo.completed === true;
-    } else if (filter === "active") {
-      return todo.completed === false;
-    } else if (filter === "all") {
-      return todo;
-    }
-  });
-
   const handleAll = () => {
     setFilter("all");
   };
@@ -80,6 +72,15 @@ const App = () => {
     setTodoText("");
     setTodoUpdateId("");
   };
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "completed") {
+      return todo.completed === true;
+    } else if (filter === "active") {
+      return todo.completed === false;
+    } else if (filter === "all") {
+      return todo;
+    }
+  });
 
   return (
     <div className="todo-container">
@@ -89,47 +90,21 @@ const App = () => {
       <button onClick={handleComlete}>Completed</button>
 
       <p>Todos: {todos.filter((todo) => todo.completed === false).length}</p>
-      {filteredTodos.length === 0 ? (
-        <p>No todos found.</p>
-      ) : (
-        filteredTodos.map((todo) => {
-          todo.completed === false;
-        }).length
-      )}
-      <p>
-        <input
-          type="text"
-          placeholder="type here ...."
-          value={todoText}
-          onChange={(e) => setTodoText(e.target.value)}
-        />
-
-        <button onClick={() => handleAdd()}>
-          {todoUpdateId === "" ? "Add Todo" : "Update"}
-        </button>
-        {/*         to show cancel button when edit is clicked.
-        "If todoUpdateId is NOT empty, show the Cancel button."
-         */}
-        {todoUpdateId !== "" && (
-          <button onClick={() => handleCancel()}>cancel</button>
-        )}
-      </p>
+      <TodoForm
+        todoText={todoText}
+        setTodoText={setTodoText}
+        handleAdd={handleAdd}
+        todoUpdateId={todoUpdateId}
+        handleCancel={handleCancel}
+      />
       <h2>Todo List</h2>
-      {filteredTodos.map((todo) => {
-        return (
-          <div className="Todo" key={todo.id}>
-            <p>{todo.text}</p>
-            <p>Completed: {todo.completed.toString()}</p>
-            <button onClick={() => handleEdit(todo.id)}>Edit</button>
-            <button onClick={() => handleDelete(todo.id)}>Delete</button>
-            <input
-              type="Checkbox"
-              checked={todo.completed}
-              onChange={() => handleCheckbox(todo.id)}
-            />
-          </div>
-        );
-      })}
+
+      <TodoList
+        filteredTodos={filteredTodos}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+        handleCheckbox={handleCheckbox}
+      />
     </div>
   );
 };

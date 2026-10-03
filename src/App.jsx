@@ -76,6 +76,10 @@ const App = () => {
     setTodoText(selectedTodo.text);
     setTodoUpdateId(selectedTodo.id);
   };
+  const handleCancel = () => {
+    setTodoText("");
+    setTodoUpdateId("");
+  };
 
   return (
     <div className="todo-container">
@@ -96,6 +100,12 @@ const App = () => {
         <button onClick={() => handleAdd()}>
           {todoUpdateId === "" ? "Add Todo" : "Update"}
         </button>
+        {/*         to show cancel button when edit is clicked.
+        "If todoUpdateId is NOT empty, show the Cancel button."
+         */}
+        {todoUpdateId !== "" && (
+          <button onClick={() => handleCancel()}>cancel</button>
+        )}
       </p>
       <h2>Todo List</h2>
       {filteredTodos.map((todo) => {
